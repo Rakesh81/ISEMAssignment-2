@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
+
+  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="datePickerDemo.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+  <script src= "http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script>
+
+
+</script>
+
+
+<h1>How Well Do You Know Beanie Boos?</h1> </br>
+<h3>Take this quiz and find out!</h3>
+
+</head>
+
+<body>
+
+<div 	ng-app="myApp" ng-controller="personCtrl" class="container">
+
+<h2 class="jumbotron" style="color:red">{{greeting}}</h2>
+
+<input type='text' ng-model='quiz1' style="display:none">
+<input type='text' ng-model='quiz2' style="display:none">
+<input type='text' ng-model='quiz3' style="display:none">
+<input type='text' ng-model='quiz4' style="display:none">
+<input type='text' ng-model='question' style="display:none">
+<input type='text' ng-model='score' style="display:none">
+<input type='text' ng-model='greeting' style="display:none">
+<input type='text' ng-model='tableDisplay' style="display:none">
+
+<div  style={{tableDisplay}}>
+	<div class="col-sm-4"><span>{{question}}</span> </div>
+
+	<div class="col-sm-4"><input type='radio' name ="stringq" ng-model='quizradiobutton' value="1"><span>{{quiz1}}</span></div>
+	<div class="col-sm-4"><input type='radio' name ="stringq" ng-model='quizradiobutton' value="2"><span>{{quiz2}}</span></div>
+	
+	<div class="col-sm-4"><input type='radio' name ="stringq" ng-model='quizradiobutton' value="3"><span>{{quiz3}}</span></div>
+	<div class="col-sm-4"><input type='radio' name ="stringq" ng-model='quizradiobutton' value="4"><span>{{quiz4}}</span></div>
+	
+	</br>
+	<div><input type="hidden" ng-model='hiddenIndex' value="0"><button ng-click="nextQuestion()"> Next Question </button></div>
+
+</div>
+
+</div>
+
+
+
+<script>
+var gIndex = -1;
+var gTotalScore = 0;
+var gTotalQuestions = 4;
+var ajaxData = [{"qu":"Which animal is Coconut?", "qz1":"A zebra", "qz2":"A monkey", "qz3":"A bear", "qz4":"A koala"},
+	     	{"qu":"What animal is Clover?", "qz1":"A squirrel","qz2":"A lamb", "qz3":"A rabbit", "qz4":"A bear"},
+	     	{"qu":"What animal is Sweetly?", "qz1":"A giraffe","qz2":"A polar bear", "qz3":"A penguin","qz4":"A monkey"},
+		{"qu":"What animal is Flips?","qz1":"A fish","qz2":"A dinosaur","qz3":"A dolphin","qz4":"A bear"}
+
+	    ];
+
+
+var app = angular.module('myApp', []);
+
+app.controller('personCtrl', function($scope) {
+	$scope.question = ajaxData[0].qu;
+	$scope.quiz1 = ajaxData[0].qz1;
+	$scope.quiz2 = ajaxData[0].qz2;
+	$scope.quiz3 = ajaxData[0].qz3;
+	$scope.quiz4 = ajaxData[0].qz4;
+	$scope.score = "0/4"; //gTotalScore + "/4"
+	$scope.tableDisplay = "display:block";
+
+    	$scope.nextQuestion = function() {
+
+	//validate the radio button
+	
+	var tt = $scope.quizradiobutton;
+	
+
+       if(tt != "1" && tt != "2" && tt != "3" && tt != "4"){
+		
+		alert('Please select some option');
+		return;
+	}
+
+	$scope.quizradiobutton = true;
+	
+
+	if(gIndex == 3) {
+		$scope.greeting = "Thanks the Quiz was done!";
+         	$scope.tableDisplay = "display:none";
+		retrun;
+
+	}
+	else {
+		gIndex++;
+	}
+
+    	$scope.question = ajaxData[gIndex].qu;
+	$scope.quiz1 = ajaxData[gIndex].qz1;
+	$scope.quiz2 = ajaxData[gIndex].qz2;
+	$scope.quiz3 = ajaxData[gIndex].qz3;
+	$scope.quiz4 = ajaxData[gIndex].qz4;
+	
+	$scope.quizradiobutton = "undefined";
+
+	//update score
+	if(true  ) {
+		$scope.score ++;
+	}
+	$scope.score = gTotalScore + "/4";
+
+   }
+
+});
+
+
+
+</script>
+</body>
+</html>
